@@ -14,8 +14,8 @@ create table players (
     first_name varchar(80) not null, 
     last_name varchar(80) not null, 
     position enum ('C', 'LW', 'RW', 'D', 'G') null,
-	primary key (player_id), 
-	constraint fk_teams foreign key (team_id) references teams (team_id)
+	primary key (player_id),
+	constraint fk_players__teams__teams_id foreign key (team_id) references teams (team_id)
 );
 
 create table player_stats (
