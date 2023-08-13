@@ -2,7 +2,8 @@
 {
     private static void Main()
     {
-        // REQUIREMENT: An example of a shots array is: [['WRIST', -9.2, 5.8], ['SLAP', 30.0, -20.3], ...]
+        // REQUIREMENT: An example of a shots array is:
+        // [['WRIST', -9.2, 5.8], ['SLAP', 30.0, -20.3], ...]
         object[] shotsArray = GetShotsArray();
 
         // Map the shots array to a collection of Shot objects
@@ -14,7 +15,7 @@
             .Distinct()
             .ToList();
 
-        Console.WriteLine("Shots that went high-glove side by type:");
+        Console.WriteLine("Shots that went high-glove side:");
 
         foreach (ShotType shotType in shotTypes)
         {
@@ -29,11 +30,12 @@
             // Output to console
             Console.WriteLine("{0}: {1:N0}%", shotType, percentHighGlove);
         }
+    }
 
-        object[] GetShotsArray()
+    static object[] GetShotsArray()
+    {
+        return new object[]
         {
-            return new object[]
-            {
                 new object[] { "WRIST", -9.2, 5.8 },
                 new object[] { "WRIST", 21.3, 23.0 },
                 new object[] { "WRIST", 19.9, 23.6 },
@@ -48,31 +50,31 @@
                 new object[] { "BACKHAND", -16.0, 0.91 },
                 new object[] { "BACKHAND", 25.7, 8.7 },
                 new object[] { "BACKHAND", 30.0, 13.3 },
-            };
-        }
+        };
+    }
 
-        List<Shot> MapShotsArray(object[] shotsArray)
-        {
-            const int ShotTypeIndex = 0;
-            const int XIndex = 1;
-            const int YIndex = 2;
+    static List<Shot> MapShotsArray(object[] shotsArray)
+    {
+        const int ShotTypeIndex = 0;
+        const int XIndex = 1;
+        const int YIndex = 2;
 
-            // REQUIREMENT: For this problem, you can assume that each shot will have all three values defined in the expected format
-            return shotsArray
-                .OfType<object[]>()
-                .Select(shot =>
+        // REQUIREMENT: For this problem, you can assume that each shot
+        // will have all three values defined in the expected format
+        return shotsArray
+            .OfType<object[]>()
+            .Select(shot =>
+            {
+                ShotType shotType = Enum.Parse<ShotType>(
+                    shot[ShotTypeIndex].ToString(),
+                    ignoreCase: true);
+
+                return new Shot
                 {
-                    ShotType shotType = Enum.Parse<ShotType>(
-                        shot[ShotTypeIndex].ToString(),
-                        ignoreCase: true);
-
-                    return new Shot
-                    {
-                        Type = shotType,
-                        X = (double)shot[XIndex],
-                        Y = (double)shot[YIndex]
-                    };
-                }).ToList();
-        }
+                    Type = shotType,
+                    X = (double)shot[XIndex],
+                    Y = (double)shot[YIndex]
+                };
+            }).ToList();
     }
 }
